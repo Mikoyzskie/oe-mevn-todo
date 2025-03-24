@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint /server --ext .js,.ts",
-    "lint:fix": "eslint /server --ext .js,.ts --fix",
+    "lint": "eslint ./ --ext .js,.ts",
+    "lint:fix": "eslint ./ --ext .js,.ts --fix",
     "format": "prettier --write ."
   },
   "keywords": [],
