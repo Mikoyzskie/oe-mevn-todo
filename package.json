@@ -22,6 +22,6 @@
     "simple-git-hooks": "^2.11.1"
   },
   "simple-git-hooks": {
-    "pre-commit": "npx lint-staged"
+    "pre-commit": "npm run lint"
   }
 }
