@@ -13,7 +13,7 @@ const router = Router();
  *       properties:
  *         _id:
  *           type: string
- *           example: "67d7cf187246f7938f395675"
+ *           example: "67e656022dcc7f704e47efec"
  *         title:
  *           type: string
  *           example: "Take a fuckin bath"
@@ -27,12 +27,25 @@ const router = Router();
  *         __v:
  *           type: integer
  *           example: 0
- *     TodoRequestBody:
+ *     TodoCreateRequestBody:
  *      type: object
  *      properties:
  *        title:
  *          type: string
  *          example: "Take a fuckin bath"
+ *     TodoUpdateRequestBody:
+ *      type: object
+ *      properties:
+ *        title:
+ *          type: string
+ *          example: "Take a fuckin bath"
+ *        completed:
+ *          type: boolean
+ *          example: false
+ *        createdAt:
+ *          type: string
+ *          format: date-time
+ *          example: "2025-03-17T07:28:24.109Z"
  *     Error:
  *      type: object
  *      properties:
@@ -88,14 +101,14 @@ router.get(
  *   post:
  *     tags:
  *     - todo
- *     summary: Update an existing todo
- *     description: Update an existing item by id
- *     operationId: addTodo
+ *     summary: Create a new Todo
+ *     description: Create a new Todo
+ *     operationId: save
  *     requestBody:
  *      content:
  *        application/json:
  *          schema:
- *            $ref: '#/components/schemas/TodoRequestBody'
+ *            $ref: '#/components/schemas/TodoCreateRequestBody'
  *      required: true
  *     responses:
  *       200:
@@ -122,18 +135,77 @@ router.post(
   }),
 );
 
+/**
+ * @swagger
+ * /todos/{id}:
+ *   put:
+ *     tags:
+ *     - todo
+ *     summary: Create a new Todo
+ *     description: Create a new Todo
+ *     operationId: findByIdAndUpdate
+ *     parameters:
+ *      - name: id
+ *        in: path
+ *        description: The id that needs to be fetched and updated. Use 67e656022dcc7f704e47efec for testing
+ *        required: true
+ *        schema:
+ *          type: string
+ *     requestBody:
+ *      content:
+ *        application/json:
+ *          schema:
+ *            $ref: '#/components/schemas/TodoUpdateRequestBody'
+ *     responses:
+ *       200:
+ *         description: successful operation
+ *         content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/Todo'
+ *       default:
+ *         description: Unexpected error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: "#/components/schemas/Error"
+ */
 router.put(
   "/:id",
   asyncHandler(async (req, res) => {
-    const todo = await Todo.findByIdAndUpdate(
-      req.params.id,
-      { completed: req.body.completed },
-      { new: true },
-    );
+    const todo = await Todo.findByIdAndUpdate(req.params.id, {
+      ...req.body,
+    });
     res.json(todo);
   }),
 );
 
+/**
+ * @swagger
+ * /todos/{id}:
+ *   delete:
+ *     tags:
+ *     - todo
+ *     summary: Delete a todo
+ *     description: Delete an existing item by id
+ *     operationId: findByIdAndDelete
+ *     parameters:
+ *      - name: id
+ *        in: path
+ *        description: The id that needs to be fetched and deleted. Use 67e656022dcc7f704e47efec for testing
+ *        required: true
+ *        schema:
+ *          type: string
+ *     responses:
+ *       200:
+ *         description: item is successfully deleted
+ *       default:
+ *         description: Unexpected error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: "#/components/schemas/Error"
+ */
 router.delete(
   "/:id",
   asyncHandler(async (req, res) => {
