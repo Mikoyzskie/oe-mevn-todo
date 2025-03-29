@@ -5,7 +5,8 @@
   "scripts": {
     "lint": "eslint ./ --ext .js,.ts",
     "lint:fix": "eslint ./ --ext .js,.ts --fix",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "server": "cd server && npm run dev"
   },
   "keywords": [],
   "author": "",

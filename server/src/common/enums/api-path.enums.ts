@@ -1,4 +1,4 @@
 const ApiPath = {
-  TODO: "/api/todos",
+  TODO: "/todos",
 };
 export { ApiPath };
